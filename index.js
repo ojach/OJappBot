@@ -12,7 +12,7 @@ const {
 // .env から読み込み
 const TOKEN = process.env.BOT_TOKEN;
 const GUILD_ID = process.env.GUILD_ID;
-const ROLE_ID = process.env.ROLE_ID;
+const ROLE_ID = process.env.MEMBER_ROLE_ID;
 const WELCOME_CHANNEL = process.env.WELCOME_CHANNEL_ID;
 
 // Bot クライアント生成
@@ -109,3 +109,4 @@ client.on("interactionCreate", async (interaction) => {
 // ===========================================
 
 client.login(TOKEN);
+
