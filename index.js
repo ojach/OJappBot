@@ -11,10 +11,10 @@ const {
 } = require("discord.js");
 
 // .env から読み込み
-const TOKEN = process.env.BOT_TOKEN;
+const TOKEN = process.env.TOKEN;
 const GUILD_ID = process.env.GUILD_ID;
-const ROLE_ID = process.env.MENBER_ROLE_ID;
-const WELCOME_CHANNEL = process.env.WELCOME_CHANNEL_ID;
+const ROLE_ID = process.env.ROLE_ID;
+const WELCOME_CHANNEL = process.env.WELCOME_CHANNEL;
 
 // Bot クライアント生成
 const client = new Client({
@@ -109,4 +109,3 @@ client.on("interactionCreate", async (interaction) => {
 //  ▼ Bot ログイン
 // ===========================================
 client.login(TOKEN);
-
