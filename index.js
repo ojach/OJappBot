@@ -1,5 +1,5 @@
 // index.js
-
+require("dotenv").config();
 const {
   Client,
   GatewayIntentBits,
@@ -108,6 +108,7 @@ client.on("interactionCreate", async (interaction) => {
 //  ▼ Bot ログイン
 // ===========================================
 client.login(TOKEN);
+
 
 
 
