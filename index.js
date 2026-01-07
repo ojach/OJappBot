@@ -13,6 +13,7 @@ const {
 
 // .env から読み込み
 const TOKEN = process.env.BOT_TOKEN;
+const GUILD_ID = process.env.GUILD_ID;
 const ROLE_ID = process.env.MEMBER_ROLE_ID;
 const WELCOME_CHANNEL = process.env.WELCOME_CHANNEL_ID;
 const SHOP_TICKET_CHANNEL = process.env.SHOP_TICKET_CHANNEL_ID;
@@ -214,6 +215,7 @@ if (interaction.customId === "close_shop_ticket") {
 //  ▼ Bot ログイン
 // ===========================================
 client.login(TOKEN);
+
 
 
 
