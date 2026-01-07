@@ -138,103 +138,84 @@ client.on("interactionCreate", async (interaction) => {
     });
   }
 
+  
+// ---------------------------
+// ▼ 作者登録チケット作成（新規）※これ1個だけ残す
+// ---------------------------
+if (interaction.customId === "create_shop_ticket") {
+
+  const guild = interaction.guild;
+  const user = interaction.user;
+
+  const channel = await guild.channels.create({
+    name: `shop-ticket-${user.username}`,
+    type: ChannelType.GuildText,
+    permissionOverwrites: [
+      {
+        id: guild.id,
+        deny: [PermissionsBitField.Flags.ViewChannel],
+      },
+      {
+        id: user.id,
+        allow: [
+          PermissionsBitField.Flags.ViewChannel,
+          PermissionsBitField.Flags.SendMessages,
+          PermissionsBitField.Flags.ReadMessageHistory,
+        ],
+      },
+      {
+        id: OWNER_ID,
+        allow: [
+          PermissionsBitField.Flags.ViewChannel,
+          PermissionsBitField.Flags.SendMessages,
+          PermissionsBitField.Flags.ReadMessageHistory,
+        ],
+      },
+    ],
+  });
+
+  // 🔒 クローズボタン
+  const closeButton = new ButtonBuilder()
+    .setCustomId("close_shop_ticket")
+    .setLabel("🔒 チケットを閉じる")
+    .setStyle(ButtonStyle.Danger);
+
+  const row = new ActionRowBuilder().addComponents(closeButton);
+
+  await channel.send({
+    content:
+      `🛍 作者登録チケット\n\n` +
+      `${user} さん、以下を送ってください👇\n` +
+      `・制作ジャンル\n` +
+      `・実績（あれば）\n` +
+      `・質問\n\n` +
+      `完了後は下のボタンでチケットを閉じてください。`,
+    components: [row],
+  });
+
+  return interaction.reply({
+    content: "✅ 作者登録用チケットを作成しました！",
+    ephemeral: true,
+  });
+}
   // ---------------------------
-  // ▼ 作者登録チケット作成（新規）
-  // ---------------------------
-  if (interaction.customId === "create_shop_ticket") {
+// ▼ チケットクローズ
+// ---------------------------
+if (interaction.customId === "close_shop_ticket") {
+  await interaction.reply({
+    content: "🔒 チケットを閉じます…",
+    ephemeral: true,
+  });
 
-    const guild = interaction.guild;
-    const user = interaction.user;
-
-    const channel = await guild.channels.create({
-      name: `shop-ticket-${user.username}`,
-      type: ChannelType.GuildText,
-      permissionOverwrites: [
-        {
-          id: guild.id,
-          deny: [PermissionsBitField.Flags.ViewChannel],
-        },
-        {
-          id: user.id,
-          allow: [
-            PermissionsBitField.Flags.ViewChannel,
-            PermissionsBitField.Flags.SendMessages,
-          ],
-        },
-        {
-          id: OWNER_ID,
-          allow: [
-            PermissionsBitField.Flags.ViewChannel,
-            PermissionsBitField.Flags.SendMessages,
-          ],
-        },
-      ],
-    });
-
-    await channel.send(
-      `🛍 作者登録チケット\n\n${user} さん、\n・制作ジャンル\n・実績（あれば）\n・質問\nを送ってください！`
-    );
-
-    await interaction.reply({
-      content: "✅ 作者登録用チケットを作成しました！",
-      ephemeral: true
-    });
-  }
-    // 作者登録チケット作成
-  if (interaction.customId === "create_shop_ticket") {
-
-    const channel = await interaction.guild.channels.create({
-      name: `shop-ticket-${interaction.user.username}`,
-      type: 0, // GUILD_TEXT
-      permissionOverwrites: [
-        {
-          id: interaction.guild.id,
-          deny: ["ViewChannel"],
-        },
-        {
-          id: interaction.user.id,
-          allow: ["ViewChannel", "SendMessages", "ReadMessageHistory"],
-        },
-        {
-          id: interaction.guild.ownerId,
-          allow: ["ViewChannel", "SendMessages", "ReadMessageHistory"],
-        },
-      ],
-    });
-
-    const closeButton = new ButtonBuilder()
-      .setCustomId("close_shop_ticket")
-      .setLabel("🔒 チケットを閉じる")
-      .setStyle(ButtonStyle.Danger);
-
-    const row = new ActionRowBuilder().addComponents(closeButton);
-
-    await channel.send({
-      content: `こんにちは <@${interaction.user.id}> 👋\n作者登録のやり取りはこちらで行います。\n\nPINを受け取ったら、下のボタンでチケットを閉じてください。`,
-      components: [row],
-    });
-
-    return interaction.reply({
-      content: "✅ 専用チャンネルを作成しました！",
-      ephemeral: true,
-    });
-  }
-
-  // チケットクローズ
-  if (interaction.customId === "close_shop_ticket") {
-    await interaction.reply({
-      content: "🔒 チケットを閉じます…",
-      ephemeral: true,
-    });
-
-    setTimeout(() => {
-      interaction.channel.delete().catch(() => {});
-    }, 1000);
-  }
+  setTimeout(() => {
+    interaction.channel.delete().catch(() => {});
+  }, 1000);
+}
 });
 
 // ===========================================
 //  ▼ Bot ログイン
 // ===========================================
 client.login(TOKEN);
+
 
