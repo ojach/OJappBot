@@ -13,7 +13,6 @@ const {
 
 // .env から読み込み
 const TOKEN = process.env.BOT_TOKEN;
-const GUILD_ID = process.env.GUILD_ID;
 const ROLE_ID = process.env.MEMBER_ROLE_ID;
 const WELCOME_CHANNEL = process.env.WELCOME_CHANNEL_ID;
 const SHOP_TICKET_CHANNEL = process.env.SHOP_TICKET_CHANNEL_ID;
@@ -72,7 +71,7 @@ client.on("messageCreate", async (msg) => {
     await channel.send({ embeds: [embed], components: [row] });
     await msg.reply("✅ #welcome にロール付与ボタンを設置しました！");
   }
-
+  
   // ---------------------------
   // ▼ shop：チケット設置（新規）
   // ---------------------------
@@ -137,9 +136,7 @@ client.on("interactionCreate", async (interaction) => {
       ephemeral: true
     });
   }
-
-  
-// ---------------------------
+  // ---------------------------
 // ▼ 作者登録チケット作成（新規）※これ1個だけ残す
 // ---------------------------
 if (interaction.customId === "create_shop_ticket") {
@@ -217,5 +214,6 @@ if (interaction.customId === "close_shop_ticket") {
 //  ▼ Bot ログイン
 // ===========================================
 client.login(TOKEN);
+
 
 
