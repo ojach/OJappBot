@@ -180,9 +180,61 @@ client.on("interactionCreate", async (interaction) => {
       ephemeral: true
     });
   }
+    // 作者登録チケット作成
+  if (interaction.customId === "create_shop_ticket") {
+
+    const channel = await interaction.guild.channels.create({
+      name: `shop-ticket-${interaction.user.username}`,
+      type: 0, // GUILD_TEXT
+      permissionOverwrites: [
+        {
+          id: interaction.guild.id,
+          deny: ["ViewChannel"],
+        },
+        {
+          id: interaction.user.id,
+          allow: ["ViewChannel", "SendMessages", "ReadMessageHistory"],
+        },
+        {
+          id: interaction.guild.ownerId,
+          allow: ["ViewChannel", "SendMessages", "ReadMessageHistory"],
+        },
+      ],
+    });
+
+    const closeButton = new ButtonBuilder()
+      .setCustomId("close_shop_ticket")
+      .setLabel("🔒 チケットを閉じる")
+      .setStyle(ButtonStyle.Danger);
+
+    const row = new ActionRowBuilder().addComponents(closeButton);
+
+    await channel.send({
+      content: `こんにちは <@${interaction.user.id}> 👋\n作者登録のやり取りはこちらで行います。\n\nPINを受け取ったら、下のボタンでチケットを閉じてください。`,
+      components: [row],
+    });
+
+    return interaction.reply({
+      content: "✅ 専用チャンネルを作成しました！",
+      ephemeral: true,
+    });
+  }
+
+  // チケットクローズ
+  if (interaction.customId === "close_shop_ticket") {
+    await interaction.reply({
+      content: "🔒 チケットを閉じます…",
+      ephemeral: true,
+    });
+
+    setTimeout(() => {
+      interaction.channel.delete().catch(() => {});
+    }, 1000);
+  }
 });
 
 // ===========================================
 //  ▼ Bot ログイン
 // ===========================================
 client.login(TOKEN);
+
