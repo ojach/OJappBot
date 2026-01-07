@@ -40,6 +40,7 @@ client.once("ready", () => {
 //  ▼ メッセージコマンド
 // ===========================================
 client.on("messageCreate", async (msg) => {
+  if (interaction.guild.id !== GUILD_ID) return;
   if (msg.author.bot) return;
 
   // ping テスト
@@ -114,6 +115,7 @@ client.on("messageCreate", async (msg) => {
 //  ▼ ボタンが押されたとき
 // ===========================================
 client.on("interactionCreate", async (interaction) => {
+  if (interaction.guild.id !== GUILD_ID) return;
   if (!interaction.isButton()) return;
 
   // ---------------------------
@@ -215,6 +217,7 @@ if (interaction.customId === "close_shop_ticket") {
 //  ▼ Bot ログイン
 // ===========================================
 client.login(TOKEN);
+
 
 
 
