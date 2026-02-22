@@ -95,7 +95,7 @@ if (msg.guild.id !== GUILD_ID) return;
 
     const button = new ButtonBuilder()
       .setCustomId("create_shop_ticket")
-      .setLabel("🎫 作者登録チケットを作成")
+      .setLabel("🎫 お問い合わせチケットを作成")
       .setStyle(ButtonStyle.Success);
 
     const row = new ActionRowBuilder().addComponents(button);
@@ -191,7 +191,7 @@ if (interaction.customId === "create_shop_ticket") {
   });
 
   return interaction.reply({
-    content: "✅ 作者登録用チケットを作成しました！",
+    content: "✅ お問い合わせチケットを作成しました！",
     ephemeral: true,
   });
 }
@@ -214,6 +214,7 @@ if (interaction.customId === "close_shop_ticket") {
 //  ▼ Bot ログイン
 // ===========================================
 client.login(TOKEN);
+
 
 
 
